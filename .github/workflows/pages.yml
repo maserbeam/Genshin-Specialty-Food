@@ -1,0 +1,76 @@
+name: Deploy GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run build:pages
+        env:
+          VITE_AUTH_ENABLED: "false"
+      - name: Collect static site
+        run: |
+          set -euo pipefail
+          mkdir -p pages
+          found=""
+          for f in \
+            dist/client/index.html \
+            dist/client/_shell.html \
+            dist/index.html \
+            dist/_shell.html \
+            .output/public/index.html \
+            .output/public/_shell.html
+          do
+            if [ -f "$f" ]; then
+              found="$f"
+              break
+            fi
+          done
+          if [ -z "$found" ]; then
+            echo "No shell HTML found"
+            find . -name '*.html' -not -path './node_modules/*' | head -50
+            exit 1
+          fi
+          echo "Using $found"
+          dir=$(dirname "$found")
+          cp -a "$dir"/. pages/
+          if [ ! -d pages/icons ] && [ -d public/icons ]; then
+            cp -a public/icons pages/icons
+          fi
+          if [ ! -f pages/index.html ] && [ -f pages/_shell.html ]; then
+            cp pages/_shell.html pages/index.html
+          fi
+          cp pages/index.html pages/404.html
+          touch pages/.nojekyll
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: pages
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
