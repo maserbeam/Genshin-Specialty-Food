@@ -38,6 +38,10 @@
     min-height: 100%;
   }
 
+  html {
+    overflow-x: clip;
+  }
+
   body {
     margin: 0;
     text-rendering: optimizeLegibility;
@@ -95,9 +99,14 @@
 
 .chip-row {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   gap: 0.4rem;
-  padding: 0 0.75rem 0.45rem;
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  overscroll-behavior-x: contain;
+  padding: 0 0.75rem 0.55rem;
+  scrollbar-width: thin;
 }
 
 .chip {
@@ -109,6 +118,7 @@
   min-height: 2.5rem;
   line-height: 1.2;
   flex: none;
+  white-space: nowrap;
 }
 
 .chip-on {
