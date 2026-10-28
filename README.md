@@ -1,4 +1,4 @@
-# Special Dishes
+# Specialty Dishes
 
 A cooking reference for every Genshin Impact recipe that has a character specialty.
 

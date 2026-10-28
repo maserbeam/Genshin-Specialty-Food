@@ -153,6 +153,10 @@
   height: 100%;
 }
 
+.card-plate .plate-top {
+  display: flow-root;
+}
+
 .card-plate .ing-grid {
   float: right;
   margin: 0 0 0.5rem 0.85rem;
@@ -179,8 +183,7 @@
 }
 
 .card-plate .char-line {
-  clear: left;
-  margin-top: 0.15rem;
+  margin-top: 0.35rem;
 }
 
 .card-row {
@@ -330,7 +333,7 @@
 .ing-name {
   min-width: 0;
   max-width: 7.5rem;
-  overflow-wrap: break-word;
+  overflow-wrap: normal;
   line-height: 1.15;
 }
 
@@ -426,6 +429,9 @@
 }
 
 @container (max-width: 30rem) {
+  .card-plate .plate-top {
+    display: contents;
+  }
   .card-plate {
     display: grid;
     grid-template-columns: auto minmax(0, 1fr);

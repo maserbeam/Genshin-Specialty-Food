@@ -128,8 +128,7 @@ export function SpecialtyBoard() {
       <header className="topbar">
         <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2 px-3 pt-2">
           <div className="flex min-w-0 flex-wrap items-baseline gap-x-3 gap-y-1">
-            <h1 className="page-title font-display text-gold">Special Dishes</h1>
-            <p className="text-base text-muted">Cook the base dish with that character in the party. Same ingredients.</p>
+            <h1 className="page-title font-display text-gold">Specialty Dishes</h1>
           </div>
           <div className="flex flex-wrap items-center gap-2">
             <p className="text-base text-faint">
@@ -465,9 +464,11 @@ function DishCard({
 
   return (
     <article className="card card-plate">
-      {ingredients}
-      {food}
-      {titles}
+      <div className="plate-top">
+        {ingredients}
+        {food}
+        {titles}
+      </div>
       {character}
       {effects}
       {tags}
