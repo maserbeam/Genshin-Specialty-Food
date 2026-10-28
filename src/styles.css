@@ -58,6 +58,17 @@
   }
 }
 
+.page-title {
+  font-size: 2.15rem;
+  line-height: 1;
+}
+
+.dish-title {
+  font-size: 1.7rem;
+  line-height: 1.1;
+  overflow-wrap: break-word;
+}
+
 .topbar {
   position: sticky;
   top: 0;
@@ -134,13 +145,42 @@
   min-width: 0;
   content-visibility: auto;
   contain-intrinsic-size: auto 240px;
+  container-type: inline-size;
 }
 
 .card-plate {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
+  display: flow-root;
   height: 100%;
+}
+
+.card-plate .ing-grid {
+  float: right;
+  margin: 0 0 0.5rem 0.85rem;
+}
+
+.card-plate .food-slot {
+  float: left;
+  margin: 0 0.75rem 0.45rem 0;
+}
+
+.card-plate .dish-title {
+  margin: 0;
+}
+
+.card-plate .special-pill {
+  display: block;
+  margin-top: 0.2rem;
+}
+
+.card-plate .special-pill img {
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 0.35rem;
+}
+
+.card-plate .char-line {
+  clear: left;
+  margin-top: 0.15rem;
 }
 
 .card-row {
@@ -236,11 +276,18 @@
   box-shadow: 0 0 0 2px var(--color-gold), 0 0 0 4px color-mix(in srgb, var(--color-gold) 35%, transparent);
 }
 
-.ings {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.4rem;
-  min-width: 0;
+.ing-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, max-content));
+  gap: 0.35rem;
+  width: max-content;
+  max-width: min(19rem, 48%);
+  justify-content: end;
+}
+
+.card-row .ing-grid {
+  justify-self: end;
+  max-width: none;
 }
 
 .ing {
@@ -251,11 +298,12 @@
   border-radius: 0.55rem;
   padding: 0.15rem 0.5rem 0.15rem 0.15rem;
   min-width: 0;
+  max-width: 9.5rem;
 }
 
 .ing-slot {
-  width: 2.5rem;
-  height: 2.5rem;
+  width: 2.75rem;
+  height: 2.75rem;
   border-radius: 0.4rem;
   position: relative;
   flex: none;
@@ -278,16 +326,55 @@
   line-height: 1;
 }
 
+.ing-name {
+  min-width: 0;
+  max-width: 7.5rem;
+  overflow-wrap: break-word;
+  line-height: 1.15;
+}
+
+.char-line {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 0;
+  padding-top: 0.35rem;
+}
+
+.char-special {
+  width: 1.35rem;
+  height: 1.35rem;
+  object-fit: contain;
+  display: inline-block;
+  vertical-align: -0.35rem;
+  margin: 0 0.15rem 0 0.05rem;
+}
+
+.region-tag {
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-faint);
+}
+
 .special-pill {
-  display: inline-flex;
+  display: flex;
   align-items: center;
   gap: 0.35rem;
   min-width: 0;
+  max-width: 100%;
+}
+
+.special-pill span {
+  min-width: 0;
+  overflow-wrap: break-word;
 }
 
 .special-pill img {
-  width: 1.75rem;
-  height: 1.75rem;
+  width: 2rem;
+  height: 2rem;
   object-fit: contain;
   flex: none;
 }
@@ -295,7 +382,7 @@
 .chance-table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 0.875rem;
+  font-size: 1rem;
 }
 
 .chance-table th,
@@ -313,5 +400,75 @@
 @media (max-width: 1100px) {
   .card-row {
     grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.plate-copy {
+  padding-top: 0.55rem;
+  min-width: 0;
+}
+
+.recipe-tags {
+  clear: both;
+  margin: 0.7rem 0 0;
+  letter-spacing: 0.01em;
+}
+
+.card-row .recipe-tags {
+  grid-column: 1 / -1;
+  margin-top: 0;
+}
+
+.source-note {
+  overflow-wrap: break-word;
+  max-width: 100%;
+}
+
+@container (max-width: 30rem) {
+  .card-plate {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    grid-template-areas:
+      "food title"
+      "char char"
+      "copy copy"
+      "ings ings"
+      "tags tags";
+    gap: 0.55rem 0.75rem;
+  }
+
+  .card-plate .food-slot {
+    float: none;
+    margin: 0;
+    grid-area: food;
+  }
+
+  .card-plate .dish-head {
+    grid-area: title;
+  }
+
+  .card-plate .char-line {
+    clear: none;
+    grid-area: char;
+    padding-top: 0;
+  }
+
+  .card-plate .plate-copy {
+    grid-area: copy;
+    padding-top: 0;
+  }
+
+  .card-plate .ing-grid {
+    float: none;
+    grid-area: ings;
+    width: max-content;
+    max-width: 100%;
+    margin: 0;
+    justify-content: start;
+  }
+
+  .card-plate .recipe-tags {
+    grid-area: tags;
+    margin: 0;
   }
 }

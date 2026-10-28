@@ -123,17 +123,17 @@ export function SpecialtyBoard() {
       <header className="topbar">
         <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2 px-3 pt-2">
           <div className="flex min-w-0 flex-wrap items-baseline gap-x-3 gap-y-1">
-            <h1 className="font-display text-3xl leading-none text-gold">Special Dishes</h1>
-            <p className="text-sm text-muted">Cook the base dish with that character in the party. Same ingredients.</p>
+            <h1 className="page-title font-display text-gold">Special Dishes</h1>
+            <p className="text-base text-muted">Cook the base dish with that character in the party. Same ingredients.</p>
           </div>
           <div className="flex flex-wrap items-center gap-2">
-            <p className="text-sm text-faint">
+            <p className="text-base text-faint">
               {filtered.length} / {dishes.length}
             </p>
             <div className="flex overflow-hidden rounded-lg border border-line">
               <button
                 type="button"
-                className={cx("flex min-h-11 items-center gap-1.5 px-3 text-sm", view === "plates" ? "bg-surface-2 text-fg" : "text-muted")}
+                className={cx("flex min-h-11 items-center gap-1.5 px-3 text-base", view === "plates" ? "bg-surface-2 text-fg" : "text-muted")}
                 aria-pressed={view === "plates"}
                 onClick={() => setView("plates")}
               >
@@ -142,7 +142,7 @@ export function SpecialtyBoard() {
               </button>
               <button
                 type="button"
-                className={cx("flex min-h-11 items-center gap-1.5 px-3 text-sm", view === "rows" ? "bg-surface-2 text-fg" : "text-muted")}
+                className={cx("flex min-h-11 items-center gap-1.5 px-3 text-base", view === "rows" ? "bg-surface-2 text-fg" : "text-muted")}
                 aria-pressed={view === "rows"}
                 onClick={() => setView("rows")}
               >
@@ -152,7 +152,7 @@ export function SpecialtyBoard() {
             </div>
             <button
               type="button"
-              className={cx("chip text-sm", showChance && "chip-on")}
+              className={cx("chip text-base", showChance && "chip-on")}
               aria-pressed={showChance}
               onClick={() => setShowChance((open) => !open)}
             >
@@ -212,7 +212,7 @@ export function SpecialtyBoard() {
             <button
               key={name}
               type="button"
-              className={cx("chip text-sm", effects.has(name) && "chip-on")}
+              className={cx("chip text-base", effects.has(name) && "chip-on")}
               aria-pressed={effects.has(name)}
               onClick={() => setEffects((current) => toggleMember(current, name))}
             >
@@ -225,7 +225,7 @@ export function SpecialtyBoard() {
             <button
               key={name}
               type="button"
-              className={cx("chip text-sm", elements.has(name) && "chip-on")}
+              className={cx("chip text-base", elements.has(name) && "chip-on")}
               aria-pressed={elements.has(name)}
               onClick={() => setElements((current) => toggleMember(current, name))}
             >
@@ -236,7 +236,7 @@ export function SpecialtyBoard() {
             <button
               key={rarity}
               type="button"
-              className={cx("chip text-sm", stars.has(rarity) && "chip-on")}
+              className={cx("chip text-base", stars.has(rarity) && "chip-on")}
               aria-pressed={stars.has(rarity)}
               onClick={() => setStars((current) => toggleMember(current, rarity))}
             >
@@ -245,14 +245,14 @@ export function SpecialtyBoard() {
           ))}
           <button
             type="button"
-            className={cx("chip text-sm", markedOnly && "chip-on")}
+            className={cx("chip text-base", markedOnly && "chip-on")}
             aria-pressed={markedOnly}
             onClick={() => setMarkedOnly((on) => !on)}
           >
             Marked{marked.size ? ` (${marked.size})` : ""}
           </button>
           {filtersOn && (
-            <button type="button" className="chip text-sm" onClick={clearFilters}>
+            <button type="button" className="chip text-base" onClick={clearFilters}>
               Clear
             </button>
           )}
@@ -260,7 +260,7 @@ export function SpecialtyBoard() {
 
         {showChance && (
           <div className="mx-3 mb-3 overflow-x-auto rounded-xl border border-line bg-surface px-2 py-2">
-            <p className="px-2 pb-2 text-sm text-muted">
+            <p className="px-2 pb-2 text-base text-muted">
               Odds the cook comes out as the specialty, depending on the quality you would have made.
             </p>
             <table className="chance-table">
@@ -289,8 +289,8 @@ export function SpecialtyBoard() {
 
       {filtered.length === 0 ? (
         <div className="px-3 py-16 text-center">
-          <p className="font-display text-3xl text-gold">Nothing on the board</p>
-          <p className="mt-2 text-sm text-muted">
+          <p className="page-title font-display text-gold">Nothing on the board</p>
+          <p className="mt-2 text-base text-muted">
             {markedOnly && marked.size === 0
               ? "Mark a character portrait first, or turn off the Marked filter."
               : "Try another ingredient, character, or effect."}
@@ -311,7 +311,7 @@ export function SpecialtyBoard() {
         </ul>
       )}
 
-      <footer className="px-3 pt-2 pb-8 text-sm text-faint">
+      <footer className="px-3 pt-2 pb-8 text-base text-faint">
         Personal reference from the Genshin Impact Wiki special-dish list. Not affiliated with HoYoverse.
       </footer>
     </div>
@@ -322,7 +322,7 @@ function Stars({ count }: { count: number }) {
   return (
     <span className="stars" aria-label={`${count} star`}>
       {Array.from({ length: count }, (_, index) => (
-        <Star key={index} className="size-3 fill-gold text-gold" aria-hidden />
+        <Star key={index} className="size-3.5 fill-gold text-gold" aria-hidden />
       ))}
     </span>
   );
@@ -343,115 +343,129 @@ function DishCard({
   const chance = COOK_CHANCE[dish.rarity];
   const row = layout === "rows";
 
-  const identity = (
-    <div className="identity">
-      <div className={cx("food-slot", `rarity-${dish.rarity}`)}>
-        <img src={dish.baseIcon} alt="" width={256} height={256} />
-        <Stars count={dish.rarity} />
-      </div>
-      <div className="min-w-0">
-        <div className="flex flex-wrap items-baseline gap-x-2 gap-y-0.5">
-          <h2 className="font-display text-3xl leading-none text-fg">{dish.baseName}</h2>
-          <span className="text-xs tracking-wide text-faint uppercase">{dish.region}</span>
-        </div>
-        <p className="special-pill mt-1 text-gold">
-          <img src={dish.specialIcon} alt="" width={64} height={64} />
-          <span className="leading-snug font-medium">{dish.specialName}</span>
-        </p>
-        <div className="mt-2 flex items-center gap-2">
-          <button
-            type="button"
-            className={cx("portrait", marked && "portrait-on")}
-            data-element={dish.character.element}
-            aria-pressed={marked}
-            aria-label={`${marked ? "Unmark" : "Mark"} ${dish.character.name}`}
-            onClick={onToggleMark}
-          >
-            <img src={dish.character.icon} alt="" width={128} height={128} />
-          </button>
-          <div className="min-w-0">
-            <p className="truncate font-medium text-fg">{dish.character.name}</p>
-            <p className="text-sm text-muted">
-              {dish.character.element}
-              {dish.character.nation ? ` · ${dish.character.nation}` : ""}
-              {` · ${dish.effectType}`}
-            </p>
-          </div>
-        </div>
-      </div>
+  const titles = (
+    <div className="dish-head min-w-0">
+      <h2 className="dish-title font-display text-fg">
+        <span className="region-tag mb-0.5 block">{dish.region}</span>
+        {dish.baseName}
+      </h2>
     </div>
   );
 
+  const character = (
+    <div className="char-line">
+      <button
+        type="button"
+        className={cx("portrait", marked && "portrait-on")}
+        data-element={dish.character.element}
+        aria-pressed={marked}
+        aria-label={`${marked ? "Unmark" : "Mark"} ${dish.character.name}`}
+        onClick={onToggleMark}
+      >
+        <img src={dish.character.icon} alt="" width={128} height={128} />
+      </button>
+      <p className="min-w-0 text-base leading-snug">
+        <span className="font-medium text-fg">{dish.character.name}</span>
+        <span className="text-gold">
+          {" · "}
+          <img className="char-special" src={dish.specialIcon} alt="" width={64} height={64} />
+          {dish.specialName}
+        </span>
+      </p>
+    </div>
+  );
+
+  const tags = (
+    <p className="recipe-tags text-sm text-muted">
+      {dish.character.element}
+      {dish.character.nation ? ` · ${dish.character.nation}` : ""}
+      {` · ${dish.effectType}`}
+    </p>
+  );
+
   const effects = (
-    <div className="min-w-0">
-      <p className="text-sm leading-relaxed text-fg">
+    <div className="plate-copy">
+      <p className="text-base leading-relaxed text-fg">
         <span className="font-medium text-gold">Specialty. </span>
         {dish.specialEffect}
       </p>
-      <p className="mt-1 text-sm leading-relaxed text-muted">
+      <p className="mt-1 text-base leading-relaxed text-muted">
         <span className="text-faint">Usual. </span>
         {dish.baseSummary}
       </p>
-      <p className="mt-1 text-xs text-faint">Up to {chance.delicious} when the cook would have been Delicious.</p>
       {dish.bonus && (
-        <p className="mt-1 text-sm text-gold">
+        <p className="mt-1 text-base text-gold">
           {dish.bonus.talent}: {dish.bonus.note}
         </p>
       )}
-      <button type="button" className="mt-1 text-sm text-muted underline underline-offset-2" aria-expanded={open} onClick={() => setOpen((value) => !value)}>
+      <button type="button" className="mt-1 text-base text-muted underline underline-offset-2" aria-expanded={open} onClick={() => setOpen((value) => !value)}>
         {open ? "Hide breakdown" : "Quality breakdown"}
       </button>
       {open && (
-        <div className="mt-2 space-y-1 text-sm leading-relaxed text-muted">
+        <div className="mt-2 space-y-1 text-base leading-relaxed text-muted">
           <p>Suspicious · {dish.baseEffects.suspicious}</p>
           <p>Normal · {dish.baseEffects.normal}</p>
           <p>Delicious · {dish.baseEffects.delicious}</p>
           <p className="text-fg">Specialty · {dish.specialEffect}</p>
-          <p className="text-faint">
+          <p className="text-base text-faint">
             Chance {chance.suspicious} / {chance.normal} / {chance.delicious}
           </p>
           {dish.description && <p className="text-fg">{dish.description}</p>}
         </div>
       )}
+      {dish.recipeSource && <p className="source-note mt-2 text-sm leading-relaxed text-faint">{sourceLine(dish.recipeSource)}</p>}
     </div>
   );
 
   const ingredients = (
-    <div className="min-w-0">
-      <p className="mb-1 text-xs tracking-wide text-faint uppercase">Ingredients</p>
-      <div className="ings">
-        {dish.ingredients.map((item) => (
-          <div key={item.name} className="ing">
-            <div className="ing-slot">
-              <img src={item.icon} alt="" width={128} height={128} />
-              <span className="qty text-xs">{item.count}</span>
-            </div>
-            <span className="text-sm text-fg">
-              {item.name}
-              <span className="sr-only">, {item.count}</span>
-            </span>
+    <div className="ing-grid" aria-label="Ingredients">
+      {dish.ingredients.map((item) => (
+        <div key={item.name} className="ing">
+          <div className="ing-slot">
+            <img src={item.icon} alt="" width={128} height={128} />
+            <span className="qty text-sm">{item.count}</span>
           </div>
-        ))}
-      </div>
-      {dish.recipeSource && <p className="mt-2 text-xs leading-relaxed text-faint">{sourceLine(dish.recipeSource)}</p>}
+          <span className="ing-name text-base text-fg">
+            {item.name}
+            <span className="sr-only">, {item.count}</span>
+          </span>
+        </div>
+      ))}
+    </div>
+  );
+
+  const food = (
+    <div className={cx("food-slot", `rarity-${dish.rarity}`)}>
+      <img src={dish.baseIcon} alt="" width={256} height={256} />
+      <Stars count={dish.rarity} />
     </div>
   );
 
   if (row) {
     return (
       <article className="card card-row">
-        {identity}
+        <div className="min-w-0">
+          <div className="identity">
+            {food}
+            {titles}
+          </div>
+          {character}
+        </div>
         {effects}
         {ingredients}
+        {tags}
       </article>
     );
   }
 
   return (
     <article className="card card-plate">
-      {identity}
-      {effects}
       {ingredients}
+      {food}
+      {titles}
+      {character}
+      {effects}
+      {tags}
     </article>
   );
 }
