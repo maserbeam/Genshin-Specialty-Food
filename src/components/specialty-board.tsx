@@ -20,6 +20,11 @@ function cx(...parts: Array<string | false | null | undefined>) {
   return parts.filter(Boolean).join(" ");
 }
 
+function asset(path: string) {
+  if (!path.startsWith("/")) return path;
+  return `${import.meta.env.BASE_URL}${path.slice(1)}`;
+}
+
 function toggleMember<T>(set: Set<T>, value: T) {
   const next = new Set(set);
   if (next.has(value)) next.delete(value);
@@ -362,13 +367,13 @@ function DishCard({
         aria-label={`${marked ? "Unmark" : "Mark"} ${dish.character.name}`}
         onClick={onToggleMark}
       >
-        <img src={dish.character.icon} alt="" width={128} height={128} />
+        <img src={asset(dish.character.icon)} alt="" width={128} height={128} />
       </button>
       <p className="min-w-0 text-base leading-snug">
         <span className="font-medium text-fg">{dish.character.name}</span>
         <span className="text-gold">
           {" · "}
-          <img className="char-special" src={dish.specialIcon} alt="" width={64} height={64} />
+          <img className="char-special" src={asset(dish.specialIcon)} alt="" width={64} height={64} />
           {dish.specialName}
         </span>
       </p>
@@ -422,7 +427,7 @@ function DishCard({
       {dish.ingredients.map((item) => (
         <div key={item.name} className="ing">
           <div className="ing-slot">
-            <img src={item.icon} alt="" width={128} height={128} />
+            <img src={asset(item.icon)} alt="" width={128} height={128} />
             <span className="qty text-sm">{item.count}</span>
           </div>
           <span className="ing-name text-base text-fg">
@@ -436,7 +441,7 @@ function DishCard({
 
   const food = (
     <div className={cx("food-slot", `rarity-${dish.rarity}`)}>
-      <img src={dish.baseIcon} alt="" width={256} height={256} />
+      <img src={asset(dish.baseIcon)} alt="" width={256} height={256} />
       <Stars count={dish.rarity} />
     </div>
   );
