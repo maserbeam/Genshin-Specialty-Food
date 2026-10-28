@@ -4,4 +4,4 @@ A cooking reference for every Genshin Impact recipe that has a character special
 
 Live site: https://maserbeam.github.io/Genshin-Specialty-Food/
 
-The live page is the built site. This repository is the source. Pushing to `main` rebuilds and publishes it.
+I asked Grok to make it cause I suck at coding.
