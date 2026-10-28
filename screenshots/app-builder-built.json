@@ -1,0 +1,38 @@
+{
+  "url": "http://127.0.0.1:8081/",
+  "viewports": {
+    "desktop": {
+      "width": 1280,
+      "height": 800,
+      "status": 200,
+      "title": "Special Dishes",
+      "hasCanvas": false,
+      "bodyTextLen": 4817,
+      "bodyTextHash": "9da8d974000c4f224ecfc61164782e37188a871bcca56afc65a94c65dad239f9",
+      "bodyTextPrefix": "Special Dishes Cook the base dish with that character in the par",
+      "horizontalOverflow": false,
+      "consoleErrors": [],
+      "pageErrors": [],
+      "screenshot": "/workspace/screenshots/app-builder-built.png"
+    },
+    "mobile": {
+      "width": 390,
+      "height": 844,
+      "status": 200,
+      "title": "Special Dishes",
+      "hasCanvas": false,
+      "bodyTextLen": 2197,
+      "bodyTextHash": "3d0676e05ab803527b14ec7fe40f96c743469cd798b246d34c9f15fa5003c46f",
+      "bodyTextPrefix": "Special Dishes Cook the base dish with that character in the par",
+      "horizontalOverflow": false,
+      "consoleErrors": [],
+      "pageErrors": [],
+      "screenshot": "/workspace/screenshots/app-builder-built-mobile.png"
+    }
+  },
+  "brandWarnings": [],
+  "authWarnings": [],
+  "verdictFile": "/workspace/screenshots/app-builder-built.json",
+  "divergesFromBaseline": false,
+  "baselineReasons": []
+}
