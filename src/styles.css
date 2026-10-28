@@ -97,6 +97,17 @@
   color: var(--color-faint);
 }
 
+.search-field {
+  padding-left: 2.4rem;
+  padding-right: 2.6rem;
+}
+
+.search-field::-webkit-search-decoration,
+.search-field::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+  appearance: none;
+}
+
 .chip-row {
   display: flex;
   flex-wrap: nowrap;

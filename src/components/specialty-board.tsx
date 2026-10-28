@@ -4,7 +4,7 @@ import { EFFECT_TYPES, REGIONS, dishes, sourceLine, type Dish } from "@/data/dis
 
 const MARK_KEY = "special-dishes:marked";
 
-type SortKey = "dish" | "character" | "special" | "rarity" | "effect";
+type SortKey = "dish" | "character" | "special" | "rarity" | "ingredients";
 
 function cx(...parts: Array<string | false | null | undefined>) {
   return parts.filter(Boolean).join(" ");
@@ -26,7 +26,7 @@ export function SpecialtyBoard() {
   const [query, setQuery] = useState("");
   const [effects, setEffects] = useState<Set<string>>(new Set());
   const [stars, setStars] = useState<Set<number>>(new Set());
-  const [region, setRegion] = useState("");
+  const [regions, setRegions] = useState<Set<string>>(new Set());
   const [sort, setSort] = useState<SortKey>("dish");
   const [marked, setMarked] = useState<Set<string>>(new Set());
   const [markedOnly, setMarkedOnly] = useState(false);
@@ -56,7 +56,7 @@ export function SpecialtyBoard() {
     const list = dishes.filter((dish) => {
       if (effects.size && !effects.has(dish.effectType)) return false;
       if (stars.size && !stars.has(dish.rarity)) return false;
-      if (region && dish.region !== region) return false;
+      if (regions.size && !regions.has(dish.region)) return false;
       if (markedOnly && !marked.has(dish.character.name)) return false;
       if (!q) return true;
       const hay = [
@@ -78,19 +78,19 @@ export function SpecialtyBoard() {
       if (sort === "character") return a.character.name.localeCompare(b.character.name);
       if (sort === "special") return a.specialName.localeCompare(b.specialName);
       if (sort === "rarity") return b.rarity - a.rarity || a.baseName.localeCompare(b.baseName);
-      if (sort === "effect") return a.effectType.localeCompare(b.effectType) || a.baseName.localeCompare(b.baseName);
+      if (sort === "ingredients") return b.ingredients.length - a.ingredients.length || a.baseName.localeCompare(b.baseName);
       return a.baseName.localeCompare(b.baseName);
     });
     return list;
-  }, [effects, marked, markedOnly, query, region, sort, stars]);
+  }, [effects, marked, markedOnly, query, regions, sort, stars]);
 
-  const filtersOn = query.trim() !== "" || effects.size > 0 || stars.size > 0 || region !== "" || markedOnly;
+  const filtersOn = query.trim() !== "" || effects.size > 0 || stars.size > 0 || regions.size > 0 || markedOnly;
 
   function clearFilters() {
     setQuery("");
     setEffects(new Set());
     setStars(new Set());
-    setRegion("");
+    setRegions(new Set());
     setMarkedOnly(false);
   }
 
@@ -113,7 +113,7 @@ export function SpecialtyBoard() {
             <span className="sr-only">Search dishes, characters, or ingredients</span>
             <Search className="pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2 text-faint" aria-hidden />
             <input
-              className="field w-full pr-10 pl-9"
+              className="field search-field w-full"
               value={query}
               onChange={(event) => setQuery(event.target.value)}
               placeholder="Dish, character, ingredient…"
@@ -135,22 +135,11 @@ export function SpecialtyBoard() {
             Sort
           </label>
           <select id="sort" className="select" value={sort} onChange={(event) => setSort(event.target.value as SortKey)}>
-            <option value="dish">Sort: base dish</option>
-            <option value="special">Sort: specialty</option>
-            <option value="character">Sort: character</option>
-            <option value="rarity">Sort: stars</option>
-            <option value="effect">Sort: effect</option>
-          </select>
-          <label className="sr-only" htmlFor="region">
-            Cuisine
-          </label>
-          <select id="region" className="select" value={region} onChange={(event) => setRegion(event.target.value)}>
-            <option value="">All cuisines</option>
-            {REGIONS.map((name) => (
-              <option key={name} value={name}>
-                {name}
-              </option>
-            ))}
+            <option value="dish">Base dish</option>
+            <option value="special">Specialty name</option>
+            <option value="character">Character name</option>
+            <option value="rarity">Rarity</option>
+            <option value="ingredients">Ingredient count</option>
           </select>
         </div>
 
@@ -162,6 +151,17 @@ export function SpecialtyBoard() {
               className={cx("chip text-base", effects.has(name) && "chip-on")}
               aria-pressed={effects.has(name)}
               onClick={() => setEffects((current) => toggleMember(current, name))}
+            >
+              {name}
+            </button>
+          ))}
+          {REGIONS.map((name) => (
+            <button
+              key={name}
+              type="button"
+              className={cx("chip text-base", regions.has(name) && "chip-on")}
+              aria-pressed={regions.has(name)}
+              onClick={() => setRegions((current) => toggleMember(current, name))}
             >
               {name}
             </button>
