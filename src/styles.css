@@ -95,9 +95,8 @@
 
 .chip-row {
   display: flex;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
   gap: 0.4rem;
-  overflow-x: auto;
   padding: 0 0.75rem 0.45rem;
 }
 
@@ -118,6 +117,13 @@
   border-color: var(--color-gold);
 }
 
+.mark-note {
+  margin: 0;
+  padding: 0.1rem 0.75rem 0.75rem;
+  color: var(--color-muted);
+  font-size: 0.95rem;
+}
+
 .board {
   list-style: none;
   margin: 0;
@@ -128,12 +134,6 @@
   display: grid;
   gap: 0.75rem;
   grid-template-columns: repeat(auto-fill, minmax(min(100%, 34rem), 1fr));
-}
-
-.board-rows {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
 }
 
 .card {
@@ -186,29 +186,21 @@
   margin-top: 0.35rem;
 }
 
-.card-row {
-  display: grid;
-  grid-template-columns: minmax(16rem, 24rem) minmax(14rem, 22rem) minmax(0, 1fr);
-  column-gap: 0.85rem;
-  row-gap: 0.15rem;
-  align-items: start;
-}
-
-.identity {
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
-  gap: 0.75rem;
-  min-width: 0;
-}
-
 .food-slot {
   width: 6.75rem;
   height: 6.75rem;
+  border: 0;
+  padding: 0;
   border-radius: 0.7rem;
   position: relative;
   display: grid;
   place-items: center;
   flex: none;
+  color: inherit;
+}
+
+.food-slot-on {
+  box-shadow: 0 0 0 2px var(--color-gold), 0 0 0 5px color-mix(in srgb, var(--color-gold) 32%, transparent);
 }
 
 .food-slot img {
@@ -268,18 +260,6 @@
   object-position: center top;
 }
 
-.portrait[data-element="Pyro"] { box-shadow: 0 0 0 2px var(--color-pyro); }
-.portrait[data-element="Hydro"] { box-shadow: 0 0 0 2px var(--color-hydro); }
-.portrait[data-element="Anemo"] { box-shadow: 0 0 0 2px var(--color-anemo); }
-.portrait[data-element="Electro"] { box-shadow: 0 0 0 2px var(--color-electro); }
-.portrait[data-element="Dendro"] { box-shadow: 0 0 0 2px var(--color-dendro); }
-.portrait[data-element="Cryo"] { box-shadow: 0 0 0 2px var(--color-cryo); }
-.portrait[data-element="Geo"] { box-shadow: 0 0 0 2px var(--color-geo); }
-
-.portrait-on {
-  box-shadow: 0 0 0 2px var(--color-gold), 0 0 0 4px color-mix(in srgb, var(--color-gold) 35%, transparent);
-}
-
 .ing-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, max-content));
@@ -287,11 +267,6 @@
   width: max-content;
   max-width: min(19rem, 48%);
   justify-content: end;
-}
-
-.card-row .ing-grid {
-  justify-self: end;
-  max-width: none;
 }
 
 .ing {
@@ -401,12 +376,6 @@
   font-weight: 500;
 }
 
-@media (max-width: 1100px) {
-  .card-row {
-    grid-template-columns: minmax(0, 1fr);
-  }
-}
-
 .plate-copy {
   padding-top: 0.55rem;
   min-width: 0;
@@ -416,11 +385,6 @@
   clear: both;
   margin: 0.15rem 0 0;
   letter-spacing: 0.01em;
-}
-
-.card-row .recipe-tags {
-  grid-column: 1 / -1;
-  margin-top: 0;
 }
 
 .source-note {
@@ -436,16 +400,19 @@
     display: grid;
     grid-template-columns: auto minmax(0, 1fr);
     grid-template-areas:
-      "food title"
+      "food ings"
+      "title title"
       "char char"
       "copy copy"
-      "ings ings"
       "tags tags";
     gap: 0.55rem 0.75rem;
+    align-items: start;
   }
 
   .card-plate .food-slot {
     float: none;
+    width: 5.75rem;
+    height: 5.75rem;
     margin: 0;
     grid-area: food;
   }
@@ -458,6 +425,7 @@
     clear: none;
     grid-area: char;
     padding-top: 0;
+    margin-top: 0;
   }
 
   .card-plate .plate-copy {
@@ -468,10 +436,19 @@
   .card-plate .ing-grid {
     float: none;
     grid-area: ings;
-    width: max-content;
+    width: 100%;
     max-width: 100%;
     margin: 0;
     justify-content: start;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .card-plate .ing {
+    max-width: none;
+  }
+
+  .card-plate .ing-name {
+    max-width: none;
   }
 
   .card-plate .recipe-tags {
